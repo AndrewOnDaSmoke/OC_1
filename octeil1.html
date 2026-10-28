@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoWo Chemie Mannheim | OC Teil 1 – Stereochemie & Grundlagen</title>
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-subtle: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --primary: #0284c7;
+            --primary-light: #e0f2fe;
+            --accent: #4f46e5;
+            --accent-light: #e0e7ff;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --warning: #d97706;
+            --warning-bg: #fef3c7;
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --border: #e2e8f0;
+            --radius: 10px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.58;
+            padding-bottom: 4rem;
+        }
+
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .header-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0.85rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand { display: flex; align-items: center; gap: 0.75rem; }
+
+        .badge-target {
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            text-transform: uppercase;
+        }
+
+        h1 { font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
+
+        nav { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.4rem 0.7rem;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+        }
+
+        nav a:hover { background: var(--bg-subtle); color: var(--primary); }
+
+        .btn-download {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-download:hover { opacity: 0.9; }
+
+        .container { max-width: 1240px; margin: 2rem auto; padding: 0 1.5rem; }
+
+        .intro-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #3b82f6 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .intro-banner h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+        .intro-banner p { font-size: 0.94rem; opacity: 0.95; max-width: 900px; }
+
+        .section-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .section-freq {
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 1.25rem;
+        }
+
+        @media (max-width: 650px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.3rem 1.45rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.7rem; color: var(--text-main); }
+        .card h4 { font-size: 0.96rem; font-weight: 700; margin: 1rem 0 0.4rem; color: var(--primary); }
+
+        .box {
+            padding: 0.85rem 1.05rem;
+            border-radius: 8px;
+            margin: 0.8rem 0;
+            font-size: 0.89rem;
+            border-left: 4px solid;
+        }
+
+        .box-trap { background: var(--danger-bg); border-left-color: var(--danger); color: #7f1d1d; }
+        .box-shortcut { background: var(--success-bg); border-left-color: var(--success); color: #14532d; }
+        .box-info { background: var(--primary-light); border-left-color: var(--primary); color: #0c4a6e; }
+        .box-warn { background: var(--warning-bg); border-left-color: var(--warning); color: #78350f; }
+
+        .box-title {
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.74rem;
+            letter-spacing: 0.04em;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin: 0.7rem 0; }
+        th, td { text-align: left; padding: 0.5rem 0.65rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        th { background: var(--bg-subtle); font-weight: 700; color: var(--text-main); }
+        tr:last-child td { border-bottom: none; }
+
+        ul, ol { padding-left: 1.2rem; margin: 0.45rem 0; font-size: 0.9rem; }
+        li { margin-bottom: 0.35rem; }
+
+        code {
+            font-family: Consolas, Monaco, monospace;
+            background: var(--bg-subtle);
+            padding: 0.12rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.87em;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        details.quiz {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.7rem 0.95rem;
+            margin-top: 0.7rem;
+            font-size: 0.89rem;
+        }
+
+        details.quiz summary { font-weight: 700; cursor: pointer; color: var(--primary); }
+        details.quiz .ans { margin-top: 0.55rem; padding-top: 0.55rem; border-top: 1px dashed var(--border); }
+
+        .pill {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .svg-container {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin: 0.75rem 0;
+            text-align: center;
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.72rem;
+            font-weight: 800;
+            margin-right: 0.35rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="brand">
+            <span class="badge-target">VoWo Mannheim</span>
+            <h1>Organische Chemie – Teil 1 (Deep Dive)</h1>
+        </div>
+        <nav>
+            <a href="#skelett">1. Formeln &amp; Gruppen</a>
+            <a href="#iupac">2. IUPAC &amp; E/Z</a>
+            <a href="#reaktionen">3. Reaktionen &amp; Aromaten</a>
+            <a href="#mesomerie">4. Mesomerie/Tautomerie</a>
+            <a href="#stereochemie">5. Stereochemie</a>
+            <button class="btn-download" onclick="downloadHTML()">⬇ Als .html speichern</button>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="intro-banner">
+        <h2>OC Teil 1: Stereochemie, Strukturformeln &amp; Reaktionen (90%+ Guide)</h2>
+        <p>Dieses Modul deckt alle Grundlagen der Organik sowie den kompletten Deep Dive zur <strong>Stereochemie</strong> ab: Skelettformeln &amp; Summenformel-Zähltricks, funktionelle Gruppen in Arzneistoffen, IUPAC-Nomenklatur, E/Z-Isomerie, Reaktionstypen, Hückel-Aromaten, Mesomerie vs. Tautomerie sowie R/S, D/L, Projektionen (Keilstrich, Fischer, Haworth) und meso-Verbindungen.</p>
+    </div>
+
+    <!-- KAPITEL 1 -->
+    <div class="section-title" id="skelett">
+        <span>1. Skelettformeln lesen, Summenformeln &amp; Funktionelle Gruppen</span>
+        <span class="section-freq">In 100% der Klausuren</span>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>Skelettformeln &amp; Der Summenformel-Zähltrick</h3>
+            <p style="font-size: 0.9rem;">In Skelettformeln steht jede Ecke und jedes Linienende für ein C-Atom. Da Kohlenstoff immer <strong>4 Bindungen</strong> eingeht, gilt an jedem C-Atom: <code>Anzahl H = 4 − gezeichnete Bindungsstriche</code> (eine Doppelbindung zählt als 2 Striche).</p>
+
+            <div class="box box-shortcut">
+                <span class="box-title">Der 5-Sekunden-Plausibilitätscheck (Ungerade H-Zahlen streichen!)</span>
+                <p>Bei jedem neutralen Molekül aus C, H, O und S (oder mit einer <strong>geraden</strong> Summe aus N + Halogenen) <strong>MUSS die Anzahl der H-Atome GERADE sein!</strong><br>
+                • <strong>Prostaglandin E1 (2020):</strong> Nur C, H, O &rarr; Antwort mit H<sub>37</sub> ist unmöglich, richtig ist <strong>C<sub>20</sub>H<sub>34</sub>O<sub>5</sub></strong>.<br>
+                • <strong>Diazepam (2023–2025):</strong> Hat 2 N + 1 Cl = 3 (ungerade!) &rarr; H-Zahl muss ungerade sein: <strong>C<sub>16</sub>H<sub>13</sub>ClN<sub>2</sub>O</strong>.</p>
+            </div>
+
+            <h4>Die 6 Summenformel-Klassiker der Altklausuren</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Molekül</th>
+                        <th>Summenformel</th>
+                        <th>Zähl-Hilfe &amp; Klausur-Fallen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Diazepam</strong> <span class="pill">2023–2025</span></td>
+                        <td><strong>C<sub>16</sub>H<sub>13</sub>ClN<sub>2</sub>O</strong></td>
+                        <td>2 Benzolringe (12 C) + CH<sub>3</sub> + C=O + CH<sub>2</sub> + C=N = 16 C.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Penicillin V</strong> <span class="pill">2015, 2019, Sem 18</span></td>
+                        <td><strong>C<sub>16</sub>H<sub>18</sub>N<sub>2</sub>O<sub>5</sub>S</strong></td>
+                        <td>5 O-Atome: 1 Ether + 2 Amide + 2 (COOH). H am NH und COOH mitzählen!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cefaclor</strong> <span class="pill">2018</span></td>
+                        <td><strong>C<sub>15</sub>H<sub>14</sub>ClN<sub>3</sub>O<sub>4</sub>S</strong></td>
+                        <td>3 N + 1 Cl = 4 (gerade) &rarr; gerade H-Zahl (14 H).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PGE<sub>1</sub></strong> <span class="pill">2020</span></td>
+                        <td><strong>C<sub>20</sub>H<sub>34</sub>O<sub>5</sub></strong></td>
+                        <td>Prostaglandine haben immer 20 C-Atome!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cortison</strong> <span class="pill">2021</span></td>
+                        <td><strong>C<sub>21</sub>H<sub>28</sub>O<sub>5</sub></strong></td>
+                        <td>Steroidgerüst (17 C) + 2 CH<sub>3</sub> + 2 Seitenkette = 21 C.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tetracyclin</strong> <span class="pill">2017</span></td>
+                        <td><strong>C<sub>22</sub>H<sub>24</sub>N<sub>2</sub>O<sub>8</sub></strong></td>
+                        <td>4 Ringe (18 C) + CH<sub>3</sub> + CONH<sub>2</sub> + N(CH<sub>3</sub>)<sub>2</sub> = 22 C.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Primär (1°), Sekundär (2°), Tertiär (3°), Quartär (4°)</h4>
+            <div class="box box-trap">
+                <span class="box-title">Mega-Falle: Alkohol vs. Amin (Klausur 2017–2024 &amp; Seminar 52)</span>
+                <ul>
+                    <li><strong>Bei C-Atomen &amp; Alkoholen (R–OH):</strong> Zähle, wie viele <strong>C-Atome am OH-tragenden C-Atom</strong> hängen!<br>
+                    • <em>tert</em>-Butanol ((CH<sub>3</sub>)<sub>3</sub>C–OH): Das OH-C hat 3 C-Nachbarn &rarr; <strong>tertiärer Alkohol</strong>.<br>
+                    • <em>Falle „dreiwertiger Alkohol“ (2009 #38):</em> Gemeint sind <strong>3 OH-Gruppen</strong> im Molekül (Glycerin!), nicht tertiär!</li>
+                    <li><strong>Bei Aminen (R–NH<sub>2</sub>):</strong> Zähle, wie viele <strong>C-Atome direkt am Stickstoff (N)</strong> hängen!<br>
+                    • <strong>Falle <em>tert</em>-Butylamin ((CH<sub>3</sub>)<sub>3</sub>C–NH<sub>2</sub>):</strong> Am N-Atom hängt nur <strong>EIN</strong> C-Atom &rarr; es ist ein <strong>primäres Amin (1°)</strong>!<br>
+                    • <strong>Tertiäres Amin (3°):</strong> 3 C-Reste direkt am N (kein H am N), z. B. Trimethylamin N(CH<sub>3</sub>)<sub>3</sub> oder Triethylamin.</li>
+                    <li><strong>Merkwert Klausur 2025 #1 (Decalin-Gerüst):</strong> <strong>5 primäre, 7 sekundäre, 5 tertiäre</strong> (und 1 quartäres) C-Atom.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Funktionelle Gruppen &amp; Arzneistoff-Spickzettel</h3>
+            <p style="font-size: 0.9rem;"><strong>Der C=O Nachbarschafts-Blick:</strong> Schau auf die beiden direkten Nachbarn des Carbonyl-C:</p>
+            <ul style="font-size: 0.88rem;">
+                <li><strong>Keton:</strong> Auf <u>beiden</u> Seiten ein C-Atom (<code>R–C(=O)–R'</code>).</li>
+                <li><strong>Aldehyd:</strong> Mindestens ein H-Atom am C=O (<code>R–CH=O</code>, am Kettenende).</li>
+                <li><strong>Carbonsäure:</strong> OH-Gruppe direkt am C=O (<code>R–COOH</code>).</li>
+                <li><strong>Ester:</strong> <code>–O–C</code> direkt am C=O (<code>R–C(=O)–O–R'</code>). Im Ring: <strong>Lacton</strong>. <em>(Zwei C=O an einem O = <strong>Anhydrid</strong>!)</em></li>
+                <li><strong>Amid:</strong> Stickstoff direkt am C=O (<code>R–C(=O)–NR<sub>2</sub></code>). Im Ring: <strong>Lactam</strong> (Vierring: &beta;-Lactam).</li>
+                <li><strong>Ether &amp; Thioether:</strong> <code>C–O–C</code> bzw. <code>C–S–C</code> <strong>ohne</strong> benachbartes C=O! (<code>R–SH</code> = <strong>Thiol</strong>).</li>
+                <li><strong>Halbacetal / Acetal:</strong> Ein C-Atom mit <strong>zwei Einfachbindungen zu Sauerstoff</strong> (<code>R–CH(OH)(OR')</code> im Zuckerring bzw. <code>R–C(OR')<sub>2</sub></code>).</li>
+            </ul>
+
+            <div class="box box-shortcut">
+                <span class="box-title">Klausur-Medikamente: Was ist drin – und was ist die Falle?</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Arzneistoff</th>
+                            <th>Enthaltene Gruppen (✔)</th>
+                            <th>Klausur-Falle (NICHT drin ✘)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Diazepam</strong> <span class="pill">2020, 2021</span></td>
+                            <td>Amid, Imin (C=N), Halogenaromat (Cl), Aromat, Alkyl</td>
+                            <td><strong>Kein Keton!</strong> (C=O hängt an N &rarr; Amid!) <strong>Kein Amin!</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Penicillin V</strong> <span class="pill">2015, 2019, Sem 18</span></td>
+                            <td>2x Amid (inkl. &beta;-Lactam), Thioether (–S–), Carbonsäure, Ether, Aromat</td>
+                            <td><strong>Kein Keton! Kein Aldehyd! Kein Thiol! Kein Ester!</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ciprofloxacin</strong> <span class="pill">2019, Sem 52</span></td>
+                            <td>Keton, Carbonsäure, Halogenaromat (F), Cycloalkan, <strong>sek. &amp; tert. Amin</strong></td>
+                            <td><strong>Kein Amid!</strong> (Kein N hängt direkt an einem C=O!).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cortison</strong> <span class="pill">2021</span></td>
+                            <td>3x Keton, <strong>(Z)-Alken</strong> (im Ring!), tert. Alkohol (C17), prim. Alkohol (C21)</td>
+                            <td><strong>Keine Carbonsäure! Kein Aldehyd! Kein (E)-Alken!</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Heroin</strong> <span class="pill">2009, 2011</span></td>
+                            <td>2x Ester, Ether, tertiäres Amin, Alken, Aromat</td>
+                            <td><strong>Kein Alkohol!</strong> (beide OH verestert!) <strong>Kein prim. Amin!</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Colchicin</strong> <span class="pill">2023–2025</span></td>
+                            <td>Amid, 4x Ether (–OCH<sub>3</sub>), Keton</td>
+                            <td><strong>Kein Ester! Kein Aldehyd!</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="box box-info">
+                <span class="box-title">Seminar-Aufgabe 24: Siedepunkt Carbonsäuren vs. Methylester</span>
+                <p>Carbonsäuren (<code>R–COOH</code>) bilden über ihre freie OH-Gruppe starke intermolekulare <strong>Wasserstoffbrückenbindungen</strong> (Dimere) aus. Methylester (<code>R–COOCH<sub>3</sub></code>) haben kein H am Sauerstoff &rarr; keine H-Brücken untereinander möglich &rarr; deutlich niedrigerer Siedepunkt.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- KAPITEL 2 -->
+    <div class="section-title" id="iupac">
+        <span>2. IUPAC-Nomenklatur &amp; E/Z-Konfiguration an Doppelbindungen</span>
+        <span class="section-freq">In 90% der Klausuren</span>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>IUPAC in 4 Schritten (inkl. der „Um-die-Ecke“-Falle)</h3>
+            <ol style="font-size: 0.9rem;">
+                <li><strong>Längste C-Kette finden:</strong> Muss Hauptgruppe und Mehrfachbindungen enthalten. <em>Achtung:</em> Läuft am Ende fast immer „um die Ecke“ durch eine vermeintliche Ethylgruppe!</li>
+                <li><strong>Nummerierung:</strong> Hauptgruppe (z. B. <code>-ol</code>) bekommt die <strong>kleinste Nummer</strong>, danach Mehrfachbindungen (<code>-en</code>, <code>-in</code>), danach Seitenketten.</li>
+                <li><strong>Alphabetische Sortierung der Reste:</strong> <strong>B</strong>rom vor <strong>B</strong>utyl vor <strong>E</strong>thyl vor <strong>M</strong>ethyl.</li>
+            </ol>
+
+            <div class="box box-shortcut">
+                <span class="box-title">Alle IUPAC-Moleküle der Altklausuren</span>
+                <ul>
+                    <li><strong>Klausur 2015, 2019, 2021 &amp; Beispielklausur:</strong><br>
+                    <code>CH3–CH(OH)–C≡C–CH(C2H5)–CH(CH3)–CH2–CH3</code><br>
+                    Kette läuft unten weiter (8 C = <strong>oct</strong>, nicht hept!). OH an C2, Dreifachbindung an C3, Ethyl an C5, Methyl an C6:<br>
+                    &rarr; <strong>5-Ethyl-6-methyloct-3-in-2-ol</strong> (bzw. <em>5-Ethyl-2-hydroxy-6-methyloct-3-in</em>).</li>
+                    <li><strong>Klausur 2009 &amp; 2011:</strong><br>
+                    <code>H3C–CH2–CH(C2H5)–CH(CH3)–CH3</code> &rarr; <strong>3-Ethyl-2-methylpentan</strong>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>E/Z-Isomerie an C=C-Doppelbindungen (CIP-System)</h3>
+            <p style="font-size: 0.9rem;"><strong>Bedingung (Seminar 60):</strong> An <u>beiden</u> C-Atomen der Doppelbindung müssen jeweils 2 verschiedene Reste hängen! Trägt ein C zwei gleiche Reste (z. B. <code>=CH<sub>2</sub></code> bei <em>4-Hydroxypent-1-en</em>), gibt es <strong>keine E/Z-Isomerie</strong>. In Fünf- und Sechsringen ist die Doppelbindung immer <strong>(Z) / cis</strong>.</p>
+
+            <div class="box box-info">
+                <span class="box-title">So bestimmst du (E) und (Z)</span>
+                <p>Vergleiche links die zwei Reste nach Ordnungszahl (<code>I &gt; Br &gt; Cl &gt; O &gt; N &gt; C &gt; H</code>) und rechts die zwei Reste:<br>
+                • Beide Gewinner auf <strong>derselben Seite</strong> (beide oben oder beide unten) &rarr; <strong>(Z) = Zusammen</strong>.<br>
+                • Beide Gewinner auf <strong>gegenüberliegenden Seiten</strong> &rarr; <strong>(E) = Entgegen</strong>.</p>
+            </div>
+
+            <div class="box box-shortcut">
+                <span class="box-title">Die E/Z-Klausurfälle</span>
+                <ul>
+                    <li><strong>Klausur 2025:</strong> <strong>(Z)-3-Iod-6-methylhept-3-en-1-ol</strong> (Iod an C3 und Kette an C4 zeigen beide nach unten).</li>
+                    <li><strong>Klausur 2023/2024:</strong> <strong>(Z)-2,4-Dimethylpent-2-en-1-ol</strong> (–CH<sub>2</sub>OH an C2 und Isopropyl an C3 zeigen beide nach oben).</li>
+                    <li><strong>Klausur 2017/2018:</strong> <strong>(E)-5-Bromo-3-butylhept-2-en-1-ol</strong> (–CH<sub>2</sub>OH unten, der Brom-tragende Ast an C3 oben &rarr; entgegen).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- KAPITEL 3 -->
+    <div class="section-title" id="reaktionen">
+        <span>3. Organische Reaktionstypen &amp; Aromatizität (Hückel-Regel)</span>
+        <span class="section-freq">In 100% der Klausuren</span>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>Die 5 Reaktionstypen sicher unterscheiden</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Reaktionstyp</th>
+                        <th>Erkennungsmerkmal</th>
+                        <th>Klausur-Beispiele</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Addition</strong></td>
+                        <td>C=C-Doppelbindung verschwindet, X–Y lagert sich an. Kein Nebenprodukt.</td>
+                        <td>Cyclohexen + HBr &rarr; Bromcyclohexan <span class="pill">2023, 2024</span><br>Cyclohexen + Br<sub>2</sub> &rarr; Dibromcyclohexan <span class="pill">2021</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Substitution</strong></td>
+                        <td>Ein Atom (z. B. H am Aromaten!) wird gegen ein anderes (Br) getauscht.</td>
+                        <td><strong>Benzol + Br<sub>2</sub> / FeBr<sub>3</sub> &rarr; Brombenzol + HBr</strong> <span class="pill">2020, 2025</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Eliminierung</strong></td>
+                        <td>Abspaltung (z. B. H<sub>2</sub>O), neue C=C-Doppelbindung entsteht.</td>
+                        <td>Alkohol &rarr; Alken + H<sub>2</sub>O</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kondensation</strong></td>
+                        <td>2 Moleküle verknüpfen sich unter <strong>Wasserabspaltung (–H<sub>2</sub>O)</strong>.</td>
+                        <td>• Säure + Alkohol &rarr; <strong>Ester</strong> <span class="pill">2017</span><br>• Aldehyd + Amin &rarr; <strong>Imin</strong> <span class="pill">2011</span><br>• Keton + 2 Alkohol &rarr; <strong>Acetal</strong> <span class="pill">2009, 2011</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="box box-trap">
+                <span class="box-title">Die 2 wichtigsten Reaktions-Fallen</span>
+                <ol>
+                    <li><strong>Benzol + Br<sub>2</sub>/FeBr<sub>3</sub> ist SUBSTITUTION (nicht Addition!):</strong> Der Aromat bleibt erhalten; ein unsichtbares H am Ring wird gegen Br getauscht (–HBr).</li>
+                    <li><strong>Aceton + 2 CH<sub>3</sub>OH &rightleftharpoons; 2,2-Dimethoxypropan + H<sub>2</sub>O (2009/2011):</strong> Das Produkt ist ein <strong>Acetal (Ketal)</strong>. Die Reaktion ist <strong>keine Veresterung</strong>!</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Aromaten erkennen – Die Hückel-Checkliste</h3>
+            <p style="font-size: 0.9rem;">Ein Molekül ist ein <strong>Aromat</strong>, wenn es <strong>1. ein Ring</strong> ist, <strong>2. planar und durchgehend konjugiert</strong> ist (jedes Ringatom <code>sp²</code>, <strong>kein CH<sub>2</sub> und kein C=O im Ring!</strong>) und <strong>3. exakt 4n + 2 &pi;-Elektronen (2, 6, 10, 14)</strong> besitzt.</p>
+
+            <div class="svg-container">
+                <svg viewBox="0 0 540 130" width="100%" height="auto">
+                    <g transform="translate(15, 5)">
+                        <polygon points="45,15 80,42 67,85 23,85 10,42" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                        <line x1="20" y1="46" x2="29" y2="78" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="70" y1="46" x2="61" y2="78" stroke="#0f172a" stroke-width="2"/>
+                        <circle cx="45" cy="27" r="7" fill="white" stroke="#16a34a" stroke-width="1.5"/>
+                        <text x="41" y="31" font-size="12" font-weight="bold" fill="#16a34a">−</text>
+                        <text x="5" y="103" font-size="10" font-weight="bold" fill="#16a34a">Cp⁻-Anion (6 π-e⁻)</text>
+                        <text x="12" y="116" font-size="9" fill="#16a34a">✔ AROMAT (2024)</text>
+                    </g>
+                    <g transform="translate(125, 5)">
+                        <polygon points="45,10 75,25 83,57 62,85 28,85 7,57 15,25" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                        <line x1="20" y1="30" x2="14" y2="55" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="70" y1="30" x2="76" y2="55" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="31" y1="79" x2="59" y2="79" stroke="#0f172a" stroke-width="2"/>
+                        <circle cx="45" cy="22" r="7" fill="white" stroke="#16a34a" stroke-width="1.5"/>
+                        <text x="41" y="26" font-size="11" font-weight="bold" fill="#16a34a">+</text>
+                        <text x="2" y="103" font-size="10" font-weight="bold" fill="#16a34a">Tropylium C₇H₇⁺ (6 π)</text>
+                        <text x="12" y="116" font-size="9" fill="#16a34a">✔ AROMAT (2018)</text>
+                    </g>
+                    <g transform="translate(245, 5)">
+                        <polygon points="45,15 80,42 67,85 23,85 10,42" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+                        <line x1="20" y1="46" x2="29" y2="78" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="70" y1="46" x2="61" y2="78" stroke="#0f172a" stroke-width="2"/>
+                        <circle cx="45" cy="27" r="7" fill="white" stroke="#dc2626" stroke-width="1.5"/>
+                        <text x="41" y="31" font-size="11" font-weight="bold" fill="#dc2626">+</text>
+                        <text x="5" y="103" font-size="10" font-weight="bold" fill="#dc2626">Cp⁺-Kation (4 π-e⁻)</text>
+                        <text x="8" y="116" font-size="9" fill="#dc2626">✘ KEIN Aromat (2017)</text>
+                    </g>
+                    <g transform="translate(355, 5)">
+                        <polygon points="40,22 70,38 70,68 40,84 10,68 10,38" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+                        <line x1="16" y1="41" x2="16" y2="65" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="64" y1="41" x2="64" y2="65" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="38" y1="22" x2="38" y2="10" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="42" y1="22" x2="42" y2="10" stroke="#0f172a" stroke-width="2"/>
+                        <text x="36" y="9" font-size="10" font-weight="bold">O</text>
+                        <line x1="38" y1="84" x2="38" y2="95" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="42" y1="84" x2="42" y2="95" stroke="#0f172a" stroke-width="2"/>
+                        <text x="36" y="104" font-size="10" font-weight="bold">O</text>
+                        <text x="2" y="116" font-size="9" font-weight="bold" fill="#dc2626">✘ p-Benzochinon (2019)</text>
+                    </g>
+                    <g transform="translate(450, 5)">
+                        <rect x="18" y="28" width="50" height="50" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+                        <line x1="24" y1="33" x2="24" y2="73" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="62" y1="33" x2="62" y2="73" stroke="#0f172a" stroke-width="2"/>
+                        <text x="5" y="103" font-size="10" font-weight="bold" fill="#dc2626">Cyclobutadien (4 π)</text>
+                        <text x="5" y="116" font-size="9" fill="#dc2626">✘ KEIN Aromat (2018)</text>
+                    </g>
+                </svg>
+            </div>
+
+            <ul style="font-size: 0.87rem;">
+                <li><strong>Aromaten (6 &pi;-e<sup>−</sup>):</strong> Benzol, Pyridin (6-Ring, 1 N), Pyrimidin (6-Ring, 2 N), Pyrrol (5-Ring, NH), Furan (5-Ring, O), Thiophen (5-Ring, S), Imidazol (5-Ring, 2 N), Thiazol, Cyclopentadienyl-Anion (C<sub>5</sub>H<sub>5</sub><sup>−</sup>), Tropylium-Kation (C<sub>7</sub>H<sub>7</sub><sup>+</sup>), Naphthalin (10 &pi;-e<sup>−</sup>).</li>
+                <li><strong>KEINE Aromaten (Klausur-Fallen):</strong> <em>p</em>-Benzochinon, Cyclobutadien (4 &pi;), Cyclopentadienyl-Kation (4 &pi;), Cyclopentadien (hat CH<sub>2</sub>), 2H-Pyran (hat CH<sub>2</sub>, Beispielklausur!), Cyclohexa-1,4-dien, Piperidin (gesättigt).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- KAPITEL 4 -->
+    <div class="section-title" id="mesomerie">
+        <span>4. Mesomerie (Resonanz) vs. Tautomerie</span>
+        <span class="section-freq">In 85% der Klausuren</span>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>Der Pfeil-Check: Mesomerie (&harr;) vs. Tautomerie (&rightleftharpoons;)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kriterium</th>
+                        <th>Mesomerie (Resonanz)</th>
+                        <th>Tautomerie (Keto-Enol)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pfeilsymbol</strong></td>
+                        <td><strong style="font-size:1.3rem; color:var(--primary);">&longleftrightarrow;</strong> (Mesomeriepfeil)</td>
+                        <td><strong style="font-size:1.3rem; color:var(--success);">&rightleftharpoons;</strong> (Gleichgewichtspfeil)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Was wandert?</strong></td>
+                        <td><strong>NUR Elektronen!</strong> Alle Atome bleiben fest stehen.</td>
+                        <td><strong>Ein H-Atom (Proton) UND eine Doppelbindung wandern!</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Klausur-Lösung</strong></td>
+                        <td>Benzol &longleftrightarrow; Benzol (2021 #36) oder Carboxylat &longleftrightarrow; Carboxylat.</td>
+                        <td>Aceton (<code>H3C–C(=O)–CH3</code>) &rightleftharpoons; Propen-2-ol (<code>H3C–C(OH)=CH2</code>) (2023/2024).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>Warum ist das in der Klausur so leicht zu kreuzen?</h3>
+            <div class="box box-trap">
+                <span class="box-title">Die Pfeil-Falle der Klausuren 2020–2025</span>
+                <p>Die Dozenten zeichnen oft das richtige Molekülpaar (z. B. Aceton und Enol), setzen aber absichtlich den <strong>falschen Pfeil (&longleftrightarrow; statt &rightleftharpoons;)</strong> dazwischen! Prüfe immer beides:<br>
+                1. Ist nach <strong>Mesomerie</strong> gefragt: Muss Pfeil <code>&longleftrightarrow;</code> haben + Atome dürfen sich nicht bewegt haben.<br>
+                2. Ist nach <strong>Tautomerie</strong> gefragt: Muss Pfeil <code>&rightleftharpoons;</code> haben + ein H-Atom ist vom C zum O gewandert (Keto &rightleftharpoons; Enol).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- KAPITEL 5 -->
+    <div class="section-title" id="stereochemie">
+        <span>5. Stereochemie &amp; Isomerie – Der komplette Deep Dive</span>
+        <span class="section-freq">Das #1 Thema der Klausur (3–5 Fragen pro Jahr!)</span>
+    </div>
+
+    <div class="card" style="margin-bottom: 1.25rem;">
+        <h3>5.1 Der Isomerie-Entscheidungsbaum (Seminar 21, 27, 49 &amp; Klausur)</h3>
+        <p style="font-size: 0.9rem;"><strong>Definition Isomere (2009 #36):</strong> Verbindungen mit <strong>gleicher Summenformel</strong>, aber unterschiedlicher Struktur. <em>(Falle: Pyruvat &amp; Lactat haben verschiedene Summenformeln &rarr; Redoxpaar, keine Isomere! „Amphotere“ [2009 #27] sind keine Isomere!).</em></p>
+
+        <div class="svg-container">
+            <svg viewBox="0 0 780 240" width="100%" height="auto">
+                <rect x="260" y="6" width="260" height="34" rx="6" fill="#0f172a"/>
+                <text x="390" y="28" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Gleiche Summenformel? (JA → Isomere)</text>
+                <line x1="330" y1="40" x2="160" y2="70" stroke="#475569" stroke-width="2"/>
+                <line x1="450" y1="40" x2="580" y2="70" stroke="#475569" stroke-width="2"/>
+
+                <rect x="20" y="70" width="280" height="58" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+                <text x="160" y="90" text-anchor="middle" fill="#0c4a6e" font-size="12" font-weight="bold">1. Konstitutionsisomere</text>
+                <text x="160" y="106" text-anchor="middle" fill="#0c4a6e" font-size="10">Atome sind ANDERS verknüpft!</text>
+                <text x="160" y="121" text-anchor="middle" fill="#0284c7" font-size="9.5" font-weight="bold">Glucose ↔ Fructose | Ribose ↔ Ribulose</text>
+
+                <rect x="420" y="70" width="340" height="44" rx="6" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+                <text x="590" y="90" text-anchor="middle" fill="#312e81" font-size="12" font-weight="bold">2. Stereoisomere (gleiche Verknüpfung)</text>
+                <text x="590" y="106" text-anchor="middle" fill="#312e81" font-size="10">Unterscheiden sich NUR räumlich (3D)</text>
+
+                <line x1="510" y1="114" x2="415" y2="145" stroke="#4f46e5" stroke-width="2"/>
+                <line x1="650" y1="114" x2="650" y2="145" stroke="#4f46e5" stroke-width="2"/>
+
+                <rect x="295" y="145" width="230" height="86" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+                <text x="410" y="164" text-anchor="middle" fill="#7f1d1d" font-size="12" font-weight="bold">2a. Enantiomere (Spiegelbilder)</text>
+                <text x="410" y="180" text-anchor="middle" fill="#7f1d1d" font-size="10">• ALLE Zentren invertiert (R,R ↔ S,S)</text>
+                <text x="410" y="195" text-anchor="middle" fill="#7f1d1d" font-size="10">• Gleicher Smp., Enzyme wirken anders!</text>
+                <text x="410" y="210" text-anchor="middle" fill="#7f1d1d" font-size="10">• 1:1 Gemisch = Racemat (dreht 0°)</text>
+                <text x="410" y="224" text-anchor="middle" fill="#dc2626" font-size="9.5" font-weight="bold">D-Gal ↔ L-Gal | (R)- ↔ (S)-Carvon</text>
+
+                <rect x="540" y="145" width="230" height="86" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                <text x="655" y="164" text-anchor="middle" fill="#78350f" font-size="12" font-weight="bold">2b. Diastereomere (Nicht-Spiegelbild)</text>
+                <text x="655" y="180" text-anchor="middle" fill="#78350f" font-size="10">• Teilweise invertiert (R,R ↔ R,S) oder E/Z</text>
+                <text x="655" y="195" text-anchor="middle" fill="#d97706" font-size="10" font-weight="bold">• Epimere: NUR 1 Zentrum anders!</text>
+                <text x="655" y="210" text-anchor="middle" fill="#d97706" font-size="10" font-weight="bold">• Anomere: Epimere am C1 (α ↔ β)</text>
+                <text x="655" y="224" text-anchor="middle" fill="#d97706" font-size="9.5" font-weight="bold">D-Glc ↔ D-Gal (C4) | D-Glc ↔ D-Man (C2)</text>
+            </svg>
+        </div>
+
+        <div class="box box-shortcut">
+            <span class="box-title">Die Zucker-Verhältnisse (Kommt in JEDER Klausur!)</span>
+            <ul>
+                <li><strong>D-Glucose &amp; D-Fructose</strong> (oder D-Galactose &amp; D-Fructose, oder Ribose &amp; Ribulose): Aldose vs. Ketose (C=O an C1 vs. C2) &rarr; <strong>Konstitutionsisomere</strong>! (2020, 2021, 2023, 2024).</li>
+                <li><strong>D-Glucose &amp; D-Galactose:</strong> Unterscheiden sich nur an C4 &rarr; <strong>Epimere</strong> (spezielle Diastereomere, 2025 #22).</li>
+                <li><strong>D-Glucose &amp; D-Mannose:</strong> Unterscheiden sich nur an C2 &rarr; <strong>C2-Epimere</strong>.</li>
+                <li><strong>&alpha;-D-Glucose &amp; &beta;-D-Glucose:</strong> Unterscheiden sich nur am anomeren C1 &rarr; <strong>Anomere</strong> (spezielle Diastereomere, KEINE Enantiomere! 2009 #4).</li>
+                <li><strong>D-Glucose &amp; L-Glucose</strong> (bzw. D-Galactose &amp; L-Galactose): Alle 4 Zentren gespiegelt &rarr; <strong>Enantiomere</strong>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>5.2 Stereozentren zählen &amp; 2<sup>n</sup>-Regel</h3>
+            <p style="font-size: 0.9rem;">Ein <strong>Stereozentrum (asymmetrisches C-Atom)</strong> ist ein <code>sp³</code>-C mit <strong>4 verschiedenen Resten</strong>. (Niemals CH<sub>2</sub>, CH<sub>3</sub>, C=O, C=C, Aromaten oder C(CH<sub>3</sub>)<sub>2</sub> mitzählen!).</p>
+            <p style="font-size: 0.9rem; margin-top: 0.4rem;">Bei <code>n</code> Stereozentren gibt es maximal <strong>2<sup>n</sup> Stereoisomere</strong>:</p>
+            <ul style="font-size: 0.88rem;">
+                <li><strong>Penicillin V &amp; Cefaclor:</strong> <strong>3 Zentren</strong> &rarr; 2<sup>3</sup> = <strong>8 Stereoisomere</strong> (2015, 2018, 2019).</li>
+                <li><strong>Prostaglandin E<sub>1</sub> (PGE<sub>1</sub>):</strong> <strong>4 Zentren</strong> &rarr; 2<sup>4</sup> = <strong>16 Stereoisomere</strong> (2020, 2023, 2024).</li>
+                <li><strong>Tetracyclin &amp; Estradiol:</strong> <strong>5 Zentren</strong> &rarr; 2<sup>5</sup> = <strong>32 Stereoisomere</strong> (2017, Sem 18).</li>
+                <li><strong>Cortison:</strong> <strong>6 Zentren</strong> (C8, C9, C10, C13, C14, C17) &rarr; 2<sup>6</sup> = <strong>64 Stereoisomere</strong> (2021).</li>
+                <li><strong>Taxol (Sem 48):</strong> <strong>11 Zentren</strong> &rarr; 2<sup>11</sup> = <strong>2048 Stereoisomere</strong>.</li>
+                <li><strong>Aspirin &amp; Ciprofloxacin:</strong> <strong>0 Zentren</strong> &rarr; achiral!</li>
+            </ul>
+
+            <h3 style="margin-top: 1.2rem;">5.3 CIP-System: (R) und (S) bestimmen</h3>
+            <ol style="font-size: 0.88rem;">
+                <li><span class="step-badge">1</span><strong>Prioritäten 1–4 nach Ordnungszahl Z:</strong> <code>I &gt; Br &gt; Cl &gt; S &gt; O &gt; N &gt; C &gt; D &gt; H</code>.</li>
+                <li><span class="step-badge">2</span><strong>Bei Gleichstand (z. B. C vs. C):</strong> Nachbaratome vergleichen: <code>–CH2SH &gt; –COOH &gt; –CHO &gt; –CH2OH &gt; –CH3</code>.</li>
+                <li><span class="step-badge">3</span><strong>Drehsinn 1 &rarr; 2 &rarr; 3 ablesen:</strong><br>
+                • Zeigt <strong>Prio 4 (H) nach hinten (gestrichelt)</strong> oder in Fischer <strong>vertikal</strong>: Uhrzeigersinn = <strong>(R)</strong>, gegen Uhrzeigersinn = <strong>(S)</strong>.<br>
+                • Zeigt <strong>Prio 4 (H) nach vorne (Keil)</strong> oder in Fischer <strong>horizontal (links/rechts)</strong>: Ergebnis einfach <strong>UMDREHEN</strong>!</li>
+            </ol>
+
+            <div class="box box-warn">
+                <span class="box-title">Seminar 19, 28 &amp; 47: Die L-Cystein-Ausnahme!</span>
+                <p>Alle proteinogenen Aminosäuren sind in Fischer <strong>L-konfiguriert</strong> (NH<sub>2</sub> links). Fast alle sind nach CIP <strong>(S)</strong>.<br>
+                <strong>Einzige Ausnahme: L-Cystein (und L-Penicillamin) ist (R)-konfiguriert!</strong> Grund: Das Schwefelatom (Z=16) in <code>–CH<sub>2</sub>SH</code> hat nach CIP eine höhere Priorität (Prio 2) als <code>–COOH</code> (Prio 3), wodurch sich der Drehsinn von S auf R umkehrt!</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>5.4 Projektionen &amp; 5.5 Meso-Verbindungen</h3>
+            <ul style="font-size: 0.88rem;">
+                <li><strong>Fischer-Projektion:</strong> Höchstoxidiertes C (COOH/CHO) nach oben. Waagerechte Striche zeigen nach <strong>vorne</strong>, senkrechte nach <strong>hinten</strong>. Unterstes Zentrum: OH/NH<sub>2</sub> rechts = <strong>D</strong>, links = <strong>L</strong>.</li>
+                <li><strong>Haworth-Projektion (FLOH-Regel):</strong> <strong>F</strong>ischer <strong>L</strong>inks = <strong>O</strong>ben im Haworth-Ring! Anomeres C1: OH unten = <strong>&alpha;</strong>, OH oben = <strong>&beta;</strong>.</li>
+            </ul>
+
+            <h4>Meso-Verbindungen (Klausur 2018, 2019, 2023, 2024 &amp; Sem 29)</h4>
+            <p style="font-size: 0.88rem;">Hat Stereozentren, aber eine <strong>innere Spiegelebene (&sigma;)</strong> &rarr; achiral, optisch inaktiv (Drehwinkel = 0°).</p>
+
+            <div class="svg-container">
+                <svg viewBox="0 0 500 145" width="100%" height="auto">
+                    <g transform="translate(15, 5)">
+                        <text x="65" y="12" text-anchor="middle" font-size="10" font-weight="bold" fill="#16a34a">meso-Weinsäure (2018)</text>
+                        <line x1="65" y1="26" x2="65" y2="108" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="35" y1="50" x2="95" y2="50" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="35" y1="86" x2="95" y2="86" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="15" y1="68" x2="115" y2="68" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <text x="65" y="22" text-anchor="middle" font-size="10" font-weight="bold">COOH</text>
+                        <text x="65" y="120" text-anchor="middle" font-size="10" font-weight="bold">COOH</text>
+                        <text x="98" y="54" font-size="10" font-weight="bold" fill="#16a34a">OH</text>
+                        <text x="98" y="90" font-size="10" font-weight="bold" fill="#16a34a">OH</text>
+                        <text x="65" y="135" text-anchor="middle" font-size="9" fill="#16a34a">✔ Beide OH rechts = meso</text>
+                    </g>
+                    <g transform="translate(180, 5)">
+                        <text x="70" y="12" text-anchor="middle" font-size="10" font-weight="bold" fill="#16a34a">Allarsäure (2019 / Sem 29)</text>
+                        <line x1="70" y1="26" x2="70" y2="108" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="45" y1="40" x2="95" y2="40" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="45" y1="58" x2="95" y2="58" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="45" y1="78" x2="95" y2="78" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="45" y1="96" x2="95" y2="96" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="25" y1="68" x2="115" y2="68" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <text x="70" y="22" text-anchor="middle" font-size="10" font-weight="bold">COOH</text>
+                        <text x="70" y="120" text-anchor="middle" font-size="10" font-weight="bold">COOH</text>
+                        <text x="98" y="43" font-size="9.5" font-weight="bold" fill="#16a34a">OH</text>
+                        <text x="98" y="61" font-size="9.5" font-weight="bold" fill="#16a34a">OH</text>
+                        <text x="98" y="81" font-size="9.5" font-weight="bold" fill="#16a34a">OH</text>
+                        <text x="98" y="99" font-size="9.5" font-weight="bold" fill="#16a34a">OH</text>
+                        <text x="70" y="135" text-anchor="middle" font-size="9" fill="#16a34a">✔ Alle 4 rechts = meso</text>
+                    </g>
+                    <g transform="translate(345, 5)">
+                        <text x="70" y="12" text-anchor="middle" font-size="10" font-weight="bold" fill="#16a34a">Galactarsäure (2023/2024)</text>
+                        <line x1="70" y1="26" x2="70" y2="108" stroke="#0f172a" stroke-width="2"/>
+                        <line x1="45" y1="40" x2="95" y2="40" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="45" y1="58" x2="95" y2="58" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="45" y1="78" x2="95" y2="78" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="45" y1="96" x2="95" y2="96" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="25" y1="68" x2="115" y2="68" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <text x="70" y="22" text-anchor="middle" font-size="10" font-weight="bold">COOH</text>
+                        <text x="70" y="120" text-anchor="middle" font-size="10" font-weight="bold">COOH</text>
+                        <text x="98" y="43" font-size="9.5" font-weight="bold" fill="#16a34a">OH</text>
+                        <text x="25" y="61" font-size="9.5" font-weight="bold" fill="#0284c7">HO</text>
+                        <text x="25" y="81" font-size="9.5" font-weight="bold" fill="#0284c7">HO</text>
+                        <text x="98" y="99" font-size="9.5" font-weight="bold" fill="#16a34a">OH</text>
+                        <text x="70" y="135" text-anchor="middle" font-size="9" fill="#16a34a">✔ R-L-L-R = meso</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="box box-trap">
+                <span class="box-title">So erkennst du meso-Verbindungen und Bild-Fallen sofort</span>
+                <ul>
+                    <li><strong>Enden-Check bei meso:</strong> Oben und unten <strong>müssen identisch</strong> sein (z. B. COOH/COOH oder CH<sub>3</sub>/CH<sub>3</sub> bei <em>(2R,3S)-Butan-2,3-diol</em> in der Beispielklausur!). Ist oben CHO und unten COOH, sofort streichen!</li>
+                    <li><strong>Ring-Vergleiche mit Keilen (2021 #22, 2023 #28, 2024 #21):</strong> Prüfe vor den Keilen immer zuerst, ob die Reste (CH<sub>3</sub>, OH, Isopropyl) am Ring überhaupt an denselben Ring-Positionen sitzen! In diesen 3 Klausuren saß das CH<sub>3</sub> bzw. OH ein C-Atom weiter &rarr; <strong>Konstitutionsisomere</strong>!</li>
+                    <li><strong>Umgedrehter Ring (2019 #23):</strong> Ring um 180° auf den Kopf gedreht + Keil zu Strich gewechselt = <strong>Abbildung des gleichen Moleküls</strong>!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function downloadHTML() {
+    const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "oc_teil1_stereochemie.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
